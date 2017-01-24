@@ -71,7 +71,7 @@ class CaldavClient:
         top_cal_tree = ElementTree(fromstring(res.text)).getroot()
 
         self.top_cal_url=top_cal_tree[0][1][0][0][0].text
-        #print(self.top_cal_url)
+        print(self.top_cal_url)
 
     def getAllCalendarID(self):
         data = (
@@ -86,8 +86,40 @@ class CaldavClient:
         res = self.requestPROPFIND(self.top_cal_url,data,1)
 
         all_cal_tree = ElementTree(fromstring(res.text)).getroot()
-        print(res.status_code)
+        #print(res.status_code)
+        #print(res.text)
+        #self.printAllCalendarName(all_cal_tree)
+        self.cal_url = "https://p62-caldav.icloud.com:443/10761962064/calendars/home/"
+
+    def printAllCalendarName(self,trees):
+        
+        for tree in trees:
+            for child in tree:
+                if child.tag == "{DAV:}href":
+                    print("HREF", child.text)
+                    
+                if child.tag == "{DAV:}propstat":
+                    if "{DAV:}displayname" in child[0][0].tag:
+                        print(child[0][0].text)
+
+    def getCtagCurrentCalendar(self):
+        data = (
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?> "
+                "<d:propfind xmlns:d=\"DAV:\" xmlns:cs=\"http://calendarserver.org/ns/\"> "
+                "    <d:prop> "
+                "        <d:displayname /> "
+                "        <cs:getctag /> "
+                "    </d:prop> "
+                "</d:propfind>"
+            )
+        res = self.requestPROPFIND(self.cal_url,data,1)
+
+        ctag_tree = ElementTree(fromstring(res.text)).getroot()
+        #print(res.status_code)
         print(res.text)
-        for child in all_cal_tree[0]:
-            print(child.tag, child.attrib)
-        print(all_cal_tree[0].text)
+        """
+        for tree in ctag_tree:
+            for child in tree:
+                print(child.tag, child.attrib)
+                """
+        self.printAllCalendarName(ctag_tree)

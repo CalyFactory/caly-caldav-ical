@@ -20,3 +20,4 @@ client = caly_caldav_ical.CaldavClient(
 client.getPrincipal()
 client.getTopCalendarID()
 client.getAllCalendarID()
+client.getCtagCurrentCalendar()
