@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import caly_caldav_ical
 import json 
 """
@@ -17,3 +18,5 @@ client = caly_caldav_ical.CaldavClient(
 )
 
 client.getPrincipal()
+client.getTopCalendarID()
+client.getAllCalendarID()
