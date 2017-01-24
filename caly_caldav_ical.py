@@ -11,10 +11,11 @@ class CaldavClient:
         self.userId = id
         self.userPw = pw 
     
-    def requestPROPFIND(self, req_data):
-        ret = requests.request(
+    def requestPROPFIND(self, host_url, req_data):
+        
+        req = requests.request(
             "PROPFIND",
-            self.hostname, 
+            host_url, 
             data = (
                 req_data
             ),
@@ -23,7 +24,7 @@ class CaldavClient:
                 self.userPw
             )
         )
-        return ret
+        return req
 
     def getPrincipal(self):
         data = (
@@ -34,7 +35,7 @@ class CaldavClient:
                 "   </D:prop>"
                 "</D:propfind>"
         )
-        res=self.requestPROPFIND(data)
-        print("PRINCIPAL PROBE TEST")
+        res=self.requestPROPFIND(self.hostname,data)
+        print("PRINCIPAL PROBE TEST : ")
         print(res.status_code)
         print(res.text)
