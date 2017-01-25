@@ -2,7 +2,15 @@
 import requests 
 import xml.sax
 import xml.dom.minidom
+import static
 from xml.etree.ElementTree import *
+
+"""
+prin_tree = ElementTree(fromstring(response.text)).getroot()
+for child in prin_tree[0][1][0][0][0]:
+    print(child.tag, child.attrib)
+    print(prin_tree[0][1][0][0][0].text)
+"""
 
 class CaldavClient:
 
@@ -15,7 +23,7 @@ class CaldavClient:
         self.userId = id
         self.userPw = pw 
     
-    def requestPROPFIND(self, host_url, req_data,req_depth=0):
+    def requestPROPFIND(self, host_url, req_data, req_depth=0):
         
         req = requests.request(
             "PROPFIND",
@@ -34,35 +42,16 @@ class CaldavClient:
         return req
 
     def getPrincipal(self):
-        data = (
-                "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                "<D:propfind xmlns:D=\"DAV:\">"
-                "   <D:prop>"
-                "       <D:current-user-principal/>"
-                "   </D:prop>"
-                "</D:propfind>"
-        )
+        data = static.XML_REQ_PRINCIPAL
         res=self.requestPROPFIND(self.hostname,data)
 
         prin_tree = ElementTree(fromstring(res.text)).getroot()
         self.prin_url=prin_tree[0][1][0][0][0].text
+        print(prin_tree[0][1][0][0][0].text)
 
-        """
-        prin_tree = ElementTree(fromstring(response.text)).getroot()
-        for child in prin_tree[0][1][0][0][0]:
-            print(child.tag, child.attrib)
-            print(prin_tree[0][1][0][0][0].text)
-        """
         
     def getTopCalendarID(self):
-        data = (
-                "<?xml version=\"1.0\" encoding=\"utf-8\"?> "
-                "<ns0:propfind xmlns:C=\"urn:ietf:params:xml:ns:caldav\" xmlns:D=\"DAV\" xmlns:ns0=\"DAV:\">"
-                "   <ns0:prop>"
-                "       <C:calendar-home-set/>"
-                "   </ns0:prop>"
-                "</ns0:propfind>"
-            )
+        data = static.XML_REQ_HOMESET
         #print("getTotalCalendarID")
         #print(self.hostname+self.prin_url)
 
@@ -71,25 +60,18 @@ class CaldavClient:
         top_cal_tree = ElementTree(fromstring(res.text)).getroot()
 
         self.top_cal_url=top_cal_tree[0][1][0][0][0].text
-        print(self.top_cal_url)
+        #print(self.top_cal_url)
 
     def getAllCalendarID(self):
-        data = (
-                "<?xml version=\"1.0\" encoding=\"utf-8\"?> "
-                "<ns0:propfind xmlns:C=\"urn:ietf:params:xml:ns:caldav\" xmlns:D=\"DAV\" xmlns:ns0=\"DAV:\"> "
-                "    <ns0:prop> "
-                "         <ns0:displayname/> "
-                "        <ns0:resourcetype/> "
-                "    </ns0:prop> "
-                "</ns0:propfind> "
-            )
+        data = static.XML_REQ_CALENDARCTAG
         res = self.requestPROPFIND(self.top_cal_url,data,1)
 
         all_cal_tree = ElementTree(fromstring(res.text)).getroot()
         #print(res.status_code)
-        #print(res.text)
-        #self.printAllCalendarName(all_cal_tree)
-        self.cal_url = "https://p62-caldav.icloud.com:443/10761962064/calendars/home/"
+        #print(res.status_code)
+        print(res.text)
+        self.printAllCalendarName(all_cal_tree)
+        #self.cal_url = "https://p62-caldav.icloud.com:443/10761962064/calendars/home/"
 
     def printAllCalendarName(self,trees):
         
@@ -99,8 +81,20 @@ class CaldavClient:
                     print("HREF", child.text)
                     
                 if child.tag == "{DAV:}propstat":
+                    #print("PROPSTAT", child[0][0].tag, child[0][0].attrib)#, len(child[0]))
                     if "{DAV:}displayname" in child[0][0].tag:
-                        print(child[0][0].text)
+                        print("DS ",child[0][0].text)
+                    if len(child[0]) > 1:
+                        #print("PROPSTAT", child[0][1].tag, child[0][1].attrib)
+                        if "{http://calendarserver.org/ns/}getctag" in child[0][1].tag:
+                            print("GC ",child[0][1].text)
+                    if len(child[0]) > 2:
+                        #print("PROPSTAT", child[0][2].tag, child[0][2].attrib)
+                        if "{http://calendarserver.org/ns/}getctag" in child[0][2].tag:
+                            print("GC ",child[0][2].text)
+
+                    print()
+                    
 
     def getCtagCurrentCalendar(self):
         data = (
@@ -116,10 +110,10 @@ class CaldavClient:
 
         ctag_tree = ElementTree(fromstring(res.text)).getroot()
         #print(res.status_code)
-        print(res.text)
+        #print(res.text)
         """
         for tree in ctag_tree:
             for child in tree:
                 print(child.tag, child.attrib)
                 """
-        self.printAllCalendarName(ctag_tree)
+        #self.printAllCalendarName(ctag_tree)

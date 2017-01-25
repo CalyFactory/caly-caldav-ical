@@ -6,12 +6,14 @@ DEVELOPMENT
 
 CURRENT FLOW
 ---
+	BASIC LOGIC
+
 	- Get User's principal url
 
-	- Get Total Calendar ID
+	- Get Top Calendar ID
 	
-	- Get Each Calendar ID
+	- Get Each Calendar ID (depth=1)
 	
-	- **Get C-tag about All Calendar**
+	- Get C-tag about All Calendar (V)
 	
 	- Get E-tag about All Calendar Event
