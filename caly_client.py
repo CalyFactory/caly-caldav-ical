@@ -14,7 +14,6 @@ for child in prin_tree[0][1][0][0][0]:
     print(prin_tree[0][1][0][0][0].text)
 """
 
-
 class CaldavClient:
 
     def __init__(self, hostname, id, pw):
@@ -26,6 +25,7 @@ class CaldavClient:
         self.userId = id
         self.userPw = pw 
         self.calDict = {}
+        self.getPrincipal()
     
     def requestPROPFIND(self, host_url, req_data, req_depth=0):
         
@@ -52,6 +52,7 @@ class CaldavClient:
         prin_tree = ElementTree(fromstring(res.text)).getroot()
         self.prin_url=prin_tree[0][1][0][0][0].text
         #print(prin_tree[0][1][0][0][0].text)
+        self.getTopCalendarID()
 
         
     def getTopCalendarID(self):
@@ -65,6 +66,7 @@ class CaldavClient:
 
         self.top_cal_url=top_cal_tree[0][1][0][0][0].text
         #print(self.top_cal_url)
+        self.getAllCalendarID()
 
     def getAllCalendarID(self):
         data = static.XML_REQ_CALENDARCTAG
@@ -73,10 +75,10 @@ class CaldavClient:
         all_cal_tree = ElementTree(fromstring(res.text)).getroot()
         #print(res.status_code)
         #print(res.status_code)
-        print(res.text)
+        #print(res.text)
         #print(str(res.text,'euc-kr'))
         #print(type(res.text))
-        #self.generateAllCalDict(all_cal_tree)
+        self.generateAllCalDict(all_cal_tree)
         #self.cal_url = "https://p62-caldav.icloud.com:443/10761962064/calendars/home/"
 
     def generateAllCalDict(self,trees):    
@@ -105,8 +107,10 @@ class CaldavClient:
                             c_tag = child[0][2].text
                             self.filterCal(current_url,display_name, c_tag, 2)
 
-        pp = pprint.PrettyPrinter(width=100, compact=True)
-        pp.pprint(self.calDict)
+        #pp = pprint.PrettyPrinter(width=100, compact=True)
+        #print("self.calDict =====")
+        #pp.pprint(self.calDict)
+        #return self.calDict
 
     def filterCal (self, current_url, display_name, c_tag, where):
         #print("where",where)
@@ -123,3 +127,8 @@ class CaldavClient:
             self.calDict[current_url]=[display_name,c_tag]            
             #print(self.calDict)
 
+    def getCalDict(self):
+        pp = pprint.PrettyPrinter(width=100, compact=True)
+        print("self.calDict =====")
+        pp.pprint(self.calDict)
+        return self.calDict

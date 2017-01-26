@@ -18,7 +18,7 @@ CURRENT FLOW
 
 	- Get Top Calendar ID
 	
-	- Get Each Calendar ID (depth=1)
+	- Get Each Calendar ID (from here, header depth=1)
 	
 	- Get C-tag about All Calendar (V, Problem:XML encoding)
 	
