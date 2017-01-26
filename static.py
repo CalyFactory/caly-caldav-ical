@@ -28,3 +28,14 @@ XML_REQ_CALENDARCTAG =(
                 "    </d:prop> "
                 "</d:propfind>"
 )
+
+XML_REQ_CALENDARETAG =(
+                "<?xml version=\"1.0\" encoding=\"utf-8\"?> "
+                "<d:propfind xmlns:d=\"DAV:\" xmlns:cs=\"http://calendarserver.org/ns/\"> "
+                "    <d:prop> "
+                "        <d:displayname /> "
+                "        <d:resourcetype/> "
+                "        <cs:getetag /> "
+                "    </d:prop> "
+                "</d:propfind>"
+)

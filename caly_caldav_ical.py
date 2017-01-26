@@ -1,4 +1,6 @@
+#-*- coding: euc-kr -*-
 #!/usr/bin/python3
+
 import requests 
 import xml.sax
 import xml.dom.minidom
@@ -11,6 +13,7 @@ for child in prin_tree[0][1][0][0][0]:
     print(child.tag, child.attrib)
     print(prin_tree[0][1][0][0][0].text)
 """
+
 
 class CaldavClient:
 
@@ -70,11 +73,13 @@ class CaldavClient:
         all_cal_tree = ElementTree(fromstring(res.text)).getroot()
         #print(res.status_code)
         #print(res.status_code)
-        #print(res.text)
-        self.printAllCalendarName(all_cal_tree)
+        print(res.text)
+        #print(str(res.text,'euc-kr'))
+        #print(type(res.text))
+        #self.generateAllCalDict(all_cal_tree)
         #self.cal_url = "https://p62-caldav.icloud.com:443/10761962064/calendars/home/"
 
-    def printAllCalendarName(self,trees):    
+    def generateAllCalDict(self,trees):    
         org_url, dummy = self.top_cal_url.split(":443/")
         current_url=None
         for tree in trees:
@@ -100,7 +105,7 @@ class CaldavClient:
                             c_tag = child[0][2].text
                             self.filterCal(current_url,display_name, c_tag, 2)
 
-        pp = pprint.PrettyPrinter(width=41, compact=True)
+        pp = pprint.PrettyPrinter(width=100, compact=True)
         pp.pprint(self.calDict)
 
     def filterCal (self, current_url, display_name, c_tag, where):

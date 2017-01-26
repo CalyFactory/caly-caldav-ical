@@ -4,6 +4,11 @@ DEVELOPMENT
 
 	- macOS Sierra (10.12.2) 
 
+SET DEV
+---
+	- source caly-ical/bin/activate
+	- pip install -r requirements.txt
+
 CURRENT FLOW
 ---
 	BASIC LOGIC
