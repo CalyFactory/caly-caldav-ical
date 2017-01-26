@@ -6,8 +6,10 @@ DEVELOPMENT
 
 SET DEV
 ---
+~~~
 	- source caly-ical/bin/activate
 	- pip install -r requirements.txt
+~~~
 
 
 CURRENT FLOW
@@ -16,14 +18,16 @@ CURRENT FLOW
 
 	- Get User's principal url
 
-	- Get Top Calendar ID
+	- Get Home-set Calendar ID
 	
 	- Get Each Calendar ID (from here, header depth=1)
 	
-	- Get C-tag about All Calendar (V, Problem:XML encoding)
+	- Get C-tag about All Calendar (Problem:XML encoding)
 	
-	- Get E-tag about All Calendar Event
+	- Get E-tag about All Calendar Event (V)
 
 	WEB UPLOAD
 
-	- Upload web server with virtualenv & flask (V)
+	- Upload web server with virtualenv & flask
+
+	- Display Current Data for localhost:5000 (V)

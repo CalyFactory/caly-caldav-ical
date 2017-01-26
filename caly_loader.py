@@ -13,7 +13,7 @@ def tmp_login():
 	    userId,
 	    userPw
 	)
-
+	client.getAllCalendarEvent()
 	return client.getCalDict()
 
 tmp_login()

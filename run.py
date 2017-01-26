@@ -9,10 +9,13 @@ def start():
 	dict = caly_loader.tmp_login()
 	print(type(dict))
 	return render_template('calendar_list.html',result = dict)
+	#return render_template('index.html')
 
 @app.route("/current_calendar")
 def cur_cal():
-	return render_template('calendar_list.html')
+	dict = caly_loader.tmp_login()
+	print(type(dict))
+	return render_template('calendar_list.html',result = dict)
 
 if __name__ == "__main__":
 	app.run()

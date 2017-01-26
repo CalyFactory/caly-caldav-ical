@@ -52,10 +52,10 @@ class CaldavClient:
         prin_tree = ElementTree(fromstring(res.text)).getroot()
         self.prin_url=prin_tree[0][1][0][0][0].text
         #print(prin_tree[0][1][0][0][0].text)
-        self.getTopCalendarID()
+        self.getHomeSetCalendarID()
 
         
-    def getTopCalendarID(self):
+    def getHomeSetCalendarID(self):
         data = static.XML_REQ_HOMESET
         #print("getTotalCalendarID")
         #print(self.hostname+self.prin_url)
@@ -128,7 +128,14 @@ class CaldavClient:
             #print(self.calDict)
 
     def getCalDict(self):
-        pp = pprint.PrettyPrinter(width=100, compact=True)
-        print("self.calDict =====")
-        pp.pprint(self.calDict)
+        #pp = pprint.PrettyPrinter(width=100, compact=True)
+        #print("self.calDict =====")
+        #pp.pprint(self.calDict)
         return self.calDict
+
+    def getAllCalendarEvent(self):
+        data = static.XML_REQ_CALENDARETAG
+        res = self.requestPROPFIND(self.top_cal_url+"home/",data,1)
+
+        all_evt_tree = ElementTree(fromstring(res.text)).getroot()
+        print(res.text)
