@@ -7,12 +7,6 @@ import xml.dom.minidom
 import static
 from xml.etree.ElementTree import *
 import pprint
-"""
-prin_tree = ElementTree(fromstring(response.text)).getroot()
-for child in prin_tree[0][1][0][0][0]:
-    print(child.tag, child.attrib)
-    print(prin_tree[0][1][0][0][0].text)
-"""
 
 class CaldavClient:
 
@@ -24,7 +18,8 @@ class CaldavClient:
 
         self.userId = id
         self.userPw = pw 
-        self.calDict = {}
+        self.calCtagDict = {}
+        self.calEtagList = []
         self.getPrincipal()
     
     def requestPROPFIND(self, host_url, req_data, req_depth=0):
@@ -124,18 +119,32 @@ class CaldavClient:
         if(display_name is not "" and (c_tag is not "" or c_tag is not "None")):
             #print("DS ",display_name)
             #print("GC ",c_tag, "[0][1]")
-            self.calDict[current_url]=[display_name,c_tag]            
+            self.calCtagDict[current_url]=[display_name,c_tag]            
             #print(self.calDict)
 
-    def getCalDict(self):
+    def getCalSet(self):
         #pp = pprint.PrettyPrinter(width=100, compact=True)
         #print("self.calDict =====")
         #pp.pprint(self.calDict)
-        return self.calDict
+        return [self.calCtagDict,self.calEtagList]
 
     def getAllCalendarEvent(self):
         data = static.XML_REQ_CALENDARETAG
-        res = self.requestPROPFIND(self.top_cal_url+"home/",data,1)
-
-        all_evt_tree = ElementTree(fromstring(res.text)).getroot()
+        for key, value in self.calCtagDict.items():
+            res = self.requestPROPFIND(key,data,1)
+            
+            each_evt_tree = ElementTree(fromstring(res.text)).getroot()
+            
+            for tree in each_evt_tree:
+                self.calEtagList.append(tree[0].text)
+            #print(res.text)
+            
+    def testsampleEtag(self):
+        data = static.XML_REQ_CALENDARETAG
+        res = self.requestPROPFIND(key,data,1)
+        
+        evts_tree = ElementTree(fromstring(res.text)).getroot()
+        
+        for tree in evts_tree:
+            print(tree[0].tag, tree[0].text)
         print(res.text)
