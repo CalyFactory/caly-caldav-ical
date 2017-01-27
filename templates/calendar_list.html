@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+   <body>
+      <table border = 1 style="display:block;text-algin:center;width:100%;">
+         <tr>
+            <th>href url</th>
+            <td>calendar name</td>
+            <td>c_tag</td>
+         </tr>
+         {% for key, value in ctag_result.items() %}
+         
+            <tr>
+               <th> {{ key }} </th>
+               <td> {{ value[0] }} </td>
+               <td> {{ value[1] }} </td>
+            </tr>
+            
+         {% endfor %}
+      </table>
+      
+      <table border = 1 style="display:block;text-algin:center;width:100%;">
+         <tr>
+            <th>number</th>
+            <td>e_tag ics url</td>
+         </tr>
+         {% for item in etag_result %}
+         
+            <tr>
+               <th> - </th>
+               <td> {{ item }} </td>
+            </tr>
+            
+         {% endfor %}
+      </table>
+   </body>
+</html>

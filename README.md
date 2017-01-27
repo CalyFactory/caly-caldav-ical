@@ -6,9 +6,10 @@ DEVELOPMENT
 
 SET DEV
 ---
+
 ~~~
-	- source caly-ical/bin/activate
-	- pip install -r requirements.txt
+	source caly-ical/bin/activate
+	pip install -r requirements.txt
 ~~~
 
 
