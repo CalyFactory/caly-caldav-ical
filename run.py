@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def start():
-	ctag_dict, etag_list = caly_loader.tmp_login()
+	ctag_dict, etag_dict = caly_loader.tmp_login()
 	
-	return render_template('calendar_list.html',ctag_result = ctag_dict, etag_result = etag_list)
+	return render_template('calendar_list.html',ctag_result = ctag_dict, etag_result = etag_dict)
 	#return render_template('index.html')
 
 @app.route("/current_calendar")

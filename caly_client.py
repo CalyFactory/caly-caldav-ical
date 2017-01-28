@@ -19,7 +19,7 @@ class CaldavClient:
         self.userId = id
         self.userPw = pw 
         self.calCtagDict = {}
-        self.calEtagList = []
+        self.calEtagDict = {}
         self.getPrincipal()
     
     def requestPROPFIND(self, host_url, req_data, req_depth=0):
@@ -126,19 +126,20 @@ class CaldavClient:
         #pp = pprint.PrettyPrinter(width=100, compact=True)
         #print("self.calDict =====")
         #pp.pprint(self.calDict)
-        return [self.calCtagDict,self.calEtagList]
+        return [self.calCtagDict,self.calEtagDict]
 
     def getAllCalendarEvent(self):
         data = static.XML_REQ_CALENDARETAG
         for key, value in self.calCtagDict.items():
             res = self.requestPROPFIND(key,data,1)
-            
+            evt_list=[]
             each_evt_tree = ElementTree(fromstring(res.text)).getroot()
             
             for tree in each_evt_tree:
-                self.calEtagList.append(tree[0].text)
+                evt_list.append(tree[0].text)
+            self.calEtagDict[key]=evt_list
             #print(res.text)
-            
+
     def testsampleEtag(self):
         data = static.XML_REQ_CALENDARETAG
         res = self.requestPROPFIND(key,data,1)
