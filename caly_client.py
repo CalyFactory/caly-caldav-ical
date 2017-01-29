@@ -130,6 +130,8 @@ class CaldavClient:
 
     def getAllCalendarEvent(self):
         data = static.XML_REQ_CALENDARETAG
+        key_tokenizer = self.top_cal_url
+        #key_tokenizer.i
         for key, value in self.calCtagDict.items():
             res = self.requestPROPFIND(key,data,1)
             evt_list=[]
@@ -137,6 +139,9 @@ class CaldavClient:
             
             for tree in each_evt_tree:
                 evt_list.append(tree[0].text)
+
+            #dummy, key_tail = key.split(key_tokenizer)
+            #self.calEtagDict[key_tail]=evt_list
             self.calEtagDict[key]=evt_list
             #print(res.text)
 
