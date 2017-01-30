@@ -35,7 +35,8 @@ XML_REQ_CALENDARETAG =(
                 "    <d:prop> "
                 "        <d:displayname /> "
                 "        <d:resourcetype/> "
-                "        <cs:getetag /> "
+                "        <d:getetag /> "
+                "        <d:calendar-data />"
                 "    </d:prop> "
                 "</d:propfind>"
 )

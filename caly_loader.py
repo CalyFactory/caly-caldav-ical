@@ -15,6 +15,7 @@ def tmp_login():
 	)
 	client.getAllCalendarEvent()
 	#client.
+	#client.testsampleEtag()
 	return client.getCalSet()
 
 tmp_login()

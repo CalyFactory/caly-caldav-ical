@@ -56,10 +56,11 @@ class CaldavClient:
         #print(self.hostname+self.prin_url)
 
         res=self.requestPROPFIND(self.hostname+self.prin_url,data)
-        #print(res.text)
+        print(res.text)
         top_cal_tree = ElementTree(fromstring(res.text)).getroot()
 
         self.top_cal_url=top_cal_tree[0][1][0][0][0].text
+        #self.top_cal_url=top_cal_tree.find(".//{DAV:}")
         #print(self.top_cal_url)
         self.getAllCalendarID()
 
@@ -147,10 +148,11 @@ class CaldavClient:
 
     def testsampleEtag(self):
         data = static.XML_REQ_CALENDARETAG
-        res = self.requestPROPFIND(key,data,1)
+        for key, value in self.calCtagDict.items():
+            res = self.requestPROPFIND(key,data,1)
         
-        evts_tree = ElementTree(fromstring(res.text)).getroot()
-        
-        for tree in evts_tree:
-            print(tree[0].tag, tree[0].text)
-        print(res.text)
+            evts_tree = ElementTree(fromstring(res.text)).getroot()
+            
+            for tree in evts_tree:
+                print(tree[0].tag, tree[0].text)
+            print(res.text)

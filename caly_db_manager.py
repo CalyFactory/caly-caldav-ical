@@ -12,8 +12,7 @@ class CaldavDBmanager:
 
 		self.DBSession = sessionmaker(bind=self.engine)
 		self.session = self.DBSession()
-
-		self.insert()
+		#self.insert()
 		self.select()
 
 

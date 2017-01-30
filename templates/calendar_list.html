@@ -23,13 +23,15 @@
             <th>number</th>
             <td>e_tag ics url</td>
          </tr>
-         {% for item in etag_result %}
+         {% for key, list in etag_result.items() %}
          
+            {% for item in list %}
             <tr>
-               <th> - </th>
+               <th> {{ key }} </th>
                <td> {{ item }} </td>
             </tr>
-            
+            {% endfor %}
+
          {% endfor %}
       </table>
    </body>
